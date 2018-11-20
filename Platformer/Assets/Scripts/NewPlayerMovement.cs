@@ -17,6 +17,8 @@ public class NewPlayerMovement : MonoBehaviour {
     public float Jump;
 
     bool CanJump;
+    bool Grounded;
+
     Rigidbody rb;
     public CharacterController CharControl;
     public XboxController Controller;
@@ -54,10 +56,11 @@ public class NewPlayerMovement : MonoBehaviour {
         if (CharControl.isGrounded)
         {
             CanJump = true;
-
+            Grounded = true;
             moveDirection.y = 0;
             if (XCI.GetButtonDown(XboxButton.A))
             {
+                Grounded = false;
 
                 moveDirection.y = Jump;
                 CanJump = true;
@@ -87,17 +90,33 @@ public class NewPlayerMovement : MonoBehaviour {
         }
         moveDirection.y = moveDirection.y + (Physics.gravity.y * gravScale * Time.deltaTime);
         CharControl.Move(moveDirection * Time.deltaTime);
-
-        if(XCI.GetAxis(XboxAxis.LeftTrigger) > 0.35)
+        if (Grounded)
         {
-            IsSprinting = true;
+            if (XCI.GetAxis(XboxAxis.LeftTrigger) > 0.35)
+            {
+                IsSprinting = true;
+            }
+            else
+            {
+                IsSprinting = false;
+
+                Speed = DefaultSpeed;
+            }
         }
-        else
-        {
-            IsSprinting = false;
-
-            Speed = DefaultSpeed;
-         }
+        // Stops air momentum with release of L Trigger
+       // if (Grounded)
+       // {
+       //     if (XCI.GetAxis(XboxAxis.LeftTrigger) > 0.35)
+       //     {
+       //         IsSprinting = true;
+       //     }
+       // }
+       // if (XCI.GetAxis(XboxAxis.LeftTrigger) < 0.35)
+       // {
+       //     IsSprinting = false;
+       //
+       //     Speed = DefaultSpeed;
+       // }
     }
 
     
