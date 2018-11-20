@@ -28,7 +28,8 @@ public class PlayerMovement : MonoBehaviour {
     bool IsWalljumping;
     bool IsSprinting;
     bool Cutscene;
-     public float RotateSpeed;
+    bool Grounded = true;
+    public float RotateSpeed;
     float timer = 0.55f;
     public float SetJumpTime;
 
@@ -75,12 +76,12 @@ public class PlayerMovement : MonoBehaviour {
         }
 
         // SPRINT TOGGLE
-        if (IsSprinting && sprint == 0)
+        if (IsSprinting && sprint == 0 && Grounded)
         {
             Speed += SprintMultiplier;
             sprint++;
         }
-        if (IsSprinting == false)
+        if (IsSprinting == false )
         {
             Speed = DefaultSpeed;
             sprint = 0;
@@ -107,16 +108,7 @@ public class PlayerMovement : MonoBehaviour {
         //WHILE PLAYER IS NOT ON THE GROUND
         if (!Control.isGrounded)
         {
-             if (!IsWalljumping)
-            {
-                
-            //
-            // MoveDirection.x = XAxis * 10;
-            // MoveDirection.z = YAxis * 10;
-            // 
-            // MoveDirection = Camera.main.transform.TransformDirection(MoveDirection);
-                 
-            }
+            Grounded = false;
          }
         MoveDirection.y = MoveDirection.y - (GravityY * Time.deltaTime);
         // IF THE PLAYER CAN JUMP

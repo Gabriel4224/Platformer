@@ -63,11 +63,11 @@ public class CameraScript : MonoBehaviour {
         }
         if (XCI.GetAxis(XboxAxis.RightStickX, PlayerScriptrb.Controller) > 0.25 || Input.GetKey(KeyCode.E))
         {
-            Guide.transform.Rotate(0, 90 * Time.deltaTime * 2, 0);
+            Guide.transform.Rotate(0, 70 * Time.deltaTime * 2, 0);
         }
         if (XCI.GetAxis(XboxAxis.RightStickX, PlayerScriptrb.Controller) < -0.25)
         {
-            Guide.transform.Rotate(0, 90 * Time.deltaTime * -2, 0);
+            Guide.transform.Rotate(0, 70 * Time.deltaTime * -2, 0);
         }
         //  if (XCI.GetAxis(XboxAxis.RightStickX, PlayerScript.Controller) > 0.5)
         //  {

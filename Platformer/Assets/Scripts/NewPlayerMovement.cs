@@ -53,6 +53,8 @@ public class NewPlayerMovement : MonoBehaviour {
         // Jump 
         if (CharControl.isGrounded)
         {
+            CanJump = true;
+
             moveDirection.y = 0;
             if (XCI.GetButtonDown(XboxButton.A))
             {
@@ -65,6 +67,7 @@ public class NewPlayerMovement : MonoBehaviour {
         // Double Jump
         else
         {
+             
              if (XCI.GetButtonDown(XboxButton.A) && CanJump)
             {
 
@@ -74,7 +77,7 @@ public class NewPlayerMovement : MonoBehaviour {
         }
         if (IsSprinting && SprintToggle == 0)
         {
-            Speed *= 2;
+            Speed *= 1.5f;
             SprintToggle++;
         }
         if (IsSprinting == false)
