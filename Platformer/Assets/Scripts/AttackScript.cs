@@ -4,20 +4,17 @@ using UnityEngine;
 using XboxCtrlrInput;
 
 public class AttackScript : MonoBehaviour {
-    GameObject AttackBox;
-    EnemyScript Enemy;
+     EnemyScript Enemy;
     GameObject EnemyGameobject;
     bool Attacking;
     bool hit;
-    float Cooldown = 0.5f;
+    public float Cooldown;
 
     // Use this for initialization
     void Start () {
-        AttackBox = GameObject.FindGameObjectWithTag("AttackBox");
-        EnemyGameobject = GameObject.FindGameObjectWithTag("Enemy");
+         EnemyGameobject = GameObject.FindGameObjectWithTag("Enemy");
         Enemy = EnemyGameobject.GetComponent<EnemyScript>();
-        AttackBox.SetActive(false);
-    }
+     }
 	
 	// Update is called once per frame
 	void Update () {
@@ -26,34 +23,37 @@ public class AttackScript : MonoBehaviour {
         {
             if (hit)
             {
+                 hit = false;
                 Enemy.Health -= 10;
-                hit = false;
             }
             Cooldown -= Time.deltaTime;
             if (Cooldown <= 0)
             {
+                Debug.Log("Attack false");
                 Cooldown = 0.5f;
-                AttackBox.SetActive(false);
-                Attacking = false;
+                 Attacking = false;
             }
         }
     }
     void Attack()
     {
-        if (XCI.GetButtonDown(XboxButton.X))
+        if (XCI.GetButtonDown(XboxButton.X) && Attacking == false)
         {
             Debug.Log("Attack");
-            AttackBox.SetActive(true);
             Attacking = true;
         }
     }
     private void OnTriggerStay(Collider other)
     {
-
-        if (AttackBox.gameObject.tag == "Enemy")
-        {
-             hit = true;
-        }
-
+         
+            if (other.gameObject.tag == "Enemy" && Attacking == false)
+            {
+                if (XCI.GetButtonDown(XboxButton.X))
+                {
+                    Debug.Log("Hit");
+                    hit = true;
+                }
+            }
+        
     }
 }

@@ -15,6 +15,7 @@ public class NewPlayerMovement : MonoBehaviour {
     bool IsSprinting;
     int SprintToggle;
     public float Jump;
+    Vector3 TargetDirection;
 
     bool CanJump;
     bool Grounded;
@@ -65,19 +66,20 @@ public class NewPlayerMovement : MonoBehaviour {
                 moveDirection.y = Jump;
                 CanJump = true;
             }
-            
+
         }
         // Double Jump
         else
         {
-             
-             if (XCI.GetButtonDown(XboxButton.A) && CanJump)
+
+            if (XCI.GetButtonDown(XboxButton.A) && CanJump)
             {
 
                 moveDirection.y = Jump;
                 CanJump = false;
             }
         }
+        // Toggles between sprinting and jogging
         if (IsSprinting && SprintToggle == 0)
         {
             Speed *= 1.5f;
@@ -88,10 +90,13 @@ public class NewPlayerMovement : MonoBehaviour {
             Speed = DefaultSpeed;
             SprintToggle = 0;
         }
+        // Gives gravity to players Y axis 
         moveDirection.y = moveDirection.y + (Physics.gravity.y * gravScale * Time.deltaTime);
         CharControl.Move(moveDirection * Time.deltaTime);
+        // Checks if players hit box is hitting the ground
         if (Grounded)
         {
+            // Activates sprint 
             if (XCI.GetAxis(XboxAxis.LeftTrigger) > 0.35)
             {
                 IsSprinting = true;
@@ -103,20 +108,42 @@ public class NewPlayerMovement : MonoBehaviour {
                 Speed = DefaultSpeed;
             }
         }
+        //rotates player towards the forward (Faces player away camera) 
+        if (XCI.GetAxis(XboxAxis.LeftStickY) > 0.55 || Input.GetKey(KeyCode.W))
+        {
+            TargetDirection.x = transform.position.x - Camera.main.transform.position.x;
+            TargetDirection.z = transform.position.z - Camera.main.transform.position.z;
+
+            Vector3 Forward = new Vector3(TargetDirection.x, 0.0f, TargetDirection.z);
+            Vector3 NewDirection = Vector3.RotateTowards(transform.forward, Forward, 3 * Time.deltaTime, 0);
+            transform.rotation = Quaternion.LookRotation(NewDirection);
+
+        }
+        // roates player negative to its forward (Faces player towards camera)
+        if (XCI.GetAxis(XboxAxis.LeftStickY) < -0.55 || Input.GetKey(KeyCode.S))
+        {
+            TargetDirection.x = transform.position.x - Camera.main.transform.position.x;
+            TargetDirection.z = transform.position.z - Camera.main.transform.position.z;
+
+            Vector3 Forward = new Vector3(TargetDirection.x, 0.0f, TargetDirection.z);
+            Vector3 NewDirection = Vector3.RotateTowards(transform.forward, -Forward, 3 * Time.deltaTime, 0);
+            transform.rotation = Quaternion.LookRotation(NewDirection);
+
+        }
         // Stops air momentum with release of L Trigger
-       // if (Grounded)
-       // {
-       //     if (XCI.GetAxis(XboxAxis.LeftTrigger) > 0.35)
-       //     {
-       //         IsSprinting = true;
-       //     }
-       // }
-       // if (XCI.GetAxis(XboxAxis.LeftTrigger) < 0.35)
-       // {
-       //     IsSprinting = false;
-       //
-       //     Speed = DefaultSpeed;
-       // }
+        // if (Grounded)
+        // {
+        //     if (XCI.GetAxis(XboxAxis.LeftTrigger) > 0.35)
+        //     {
+        //         IsSprinting = true;
+        //     }
+        // }
+        // if (XCI.GetAxis(XboxAxis.LeftTrigger) < 0.35)
+        // {
+        //     IsSprinting = false;
+        //
+        //     Speed = DefaultSpeed;
+        // }
     }
 
     
