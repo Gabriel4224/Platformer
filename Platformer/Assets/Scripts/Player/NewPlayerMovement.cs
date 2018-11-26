@@ -10,6 +10,8 @@ public class NewPlayerMovement : MonoBehaviour {
     private float YAxis;
 
     public float Speed;
+    public Shop ShopScript;
+    GameObject Canvas;
 
     float DefaultSpeed;
     bool IsSprinting;
@@ -30,7 +32,8 @@ public class NewPlayerMovement : MonoBehaviour {
     void Start() {
         //        rb = GetComponent<Rigidbody>();
         CharControl = GetComponent<CharacterController>();
-
+        Canvas = GameObject.FindGameObjectWithTag("Canvas");
+        ShopScript = Canvas.GetComponent<Shop>();
         DefaultSpeed = Speed ;
     }
 
@@ -130,22 +133,24 @@ public class NewPlayerMovement : MonoBehaviour {
             transform.rotation = Quaternion.LookRotation(NewDirection);
 
         }
-        // Stops air momentum with release of L Trigger
-        // if (Grounded)
-        // {
-        //     if (XCI.GetAxis(XboxAxis.LeftTrigger) > 0.35)
-        //     {
-        //         IsSprinting = true;
-        //     }
-        // }
-        // if (XCI.GetAxis(XboxAxis.LeftTrigger) < 0.35)
-        // {
-        //     IsSprinting = false;
-        //
-        //     Speed = DefaultSpeed;
-        // }
+ 
     }
 
-    
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Vendor")
+        {
+            Debug.Log("Vendor ignores you");
+            ShopScript.menu.SetActive(true);
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "Vendor")
+        {
+            Debug.Log("Vendor ignores you");
+            ShopScript.menu.SetActive(false);
+        }
+    }
 }
 

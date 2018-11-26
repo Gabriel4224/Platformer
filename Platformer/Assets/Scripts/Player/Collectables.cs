@@ -22,6 +22,7 @@ public class Collectables : MonoBehaviour {
     {
         if (other.gameObject.tag == "PickUp")
         {
+            
             CollectablesPickUp++;
             Destroy(other.gameObject);
         }

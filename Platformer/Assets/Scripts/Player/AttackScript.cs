@@ -12,8 +12,9 @@ public class AttackScript : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-         EnemyGameobject = GameObject.FindGameObjectWithTag("Enemy");
+        EnemyGameobject = GameObject.FindGameObjectWithTag("Enemy");
         Enemy = EnemyGameobject.GetComponent<EnemyScript>();
+        gameObject.SetActive(false);
      }
 	
 	// Update is called once per frame
