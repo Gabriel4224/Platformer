@@ -5,7 +5,7 @@ using UnityEngine;
 public class Shop : MonoBehaviour {
 
     public int number;
-
+    float DoorAnimTimer = 1.25f;
     public GameObject menu;
     GameObject Collectable;
     Collectables CollectableScript;
@@ -14,9 +14,12 @@ public class Shop : MonoBehaviour {
     GameObject Sword;
     public GameObject ShopText;
     public GameObject ShopCam;
+    public GameObject DoorCam;
+
     bool PurchasedSword = false;
     bool PurchasedDoor = false;
-
+    bool DoorOpenAnim = false;
+    public Animator BridgeAnim;
     // Use this for initialization
     void Start () {
         Door = GameObject.FindGameObjectWithTag("Door");
@@ -27,12 +30,23 @@ public class Shop : MonoBehaviour {
         menu.SetActive(false);
         ShopText.SetActive(false);
         ShopCam.SetActive(false);
+        DoorCam.SetActive(false);
     }
 	
 	// Update is called once per frame
 	void Update () {
 		
+        if (DoorOpenAnim)
+        {
+            DoorAnimTimer -= Time.deltaTime;
+            if(DoorAnimTimer <= 0)
+            {
+                DoorCam.SetActive(false);
+                DoorOpenAnim = false;
+                menu.SetActive(true);
 
+            }
+        }
         switch (number)
         {
             case 1:
@@ -40,8 +54,12 @@ public class Shop : MonoBehaviour {
                 {
                     Debug.Log("A");
                     CollectableScript.CollectablesPickUp -= 25;
-                    Door.SetActive(false);
-                    PurchasedDoor = true;
+                     PurchasedDoor = true;
+                    BridgeAnim.SetBool("IsBridgeOpen", true);
+                    DoorCam.SetActive(true);
+                    DoorOpenAnim = true;
+                    menu.SetActive(false);
+
                 }
                 else
                 {
