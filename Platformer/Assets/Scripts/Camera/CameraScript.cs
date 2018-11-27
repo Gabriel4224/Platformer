@@ -10,7 +10,7 @@ public class CameraScript : MonoBehaviour {
     GameObject Player;
     PlayerMovement PlayerScript;
     NewPlayerMovement PlayerScriptrb;
-
+    public bool Inverted;
     Vector3 Offset;
     // Use this for initialization
     void Start () {
@@ -20,6 +20,7 @@ public class CameraScript : MonoBehaviour {
         PlayerScriptrb = Player.GetComponent<NewPlayerMovement>();
 
         Offset = new Vector3(-5, 0, 0);
+        Inverted = true;
     }
 
     // Update is called once per frame
@@ -36,30 +37,44 @@ public class CameraScript : MonoBehaviour {
     }
     void CameraRotate()
     {
-     //   if (XCI.GetAxis(XboxAxis.RightStickY, PlayerScript.Controller) > 0.5)
-     //   {
-     //       transform.position += new Vector3(0, 10 * Time.deltaTime, 0);
-     //   }
-     //   if (XCI.GetAxis(XboxAxis.RightStickY, PlayerScript.Controller) < -0.5)
-     //   {
-     //       transform.position -= new Vector3(0, 10 * Time.deltaTime, 0);
-     //   }
-     //   if (XCI.GetAxis(XboxAxis.RightStickX, PlayerScript.Controller) > 0.25 || Input.GetKey(KeyCode.E))
-     //   {
-     //       Guide.transform.Rotate(0, 90 * Time.deltaTime * 2, 0);
-     //   }
-     //   if (XCI.GetAxis(XboxAxis.RightStickX, PlayerScript.Controller) < -0.25)
-     //   {
-     //       Guide.transform.Rotate(0, 90 * Time.deltaTime * -2, 0);
-     //   }
-     //
-        if(XCI.GetAxis(XboxAxis.RightStickY, PlayerScriptrb.Controller) > 0.5)
+        //   if (XCI.GetAxis(XboxAxis.RightStickY, PlayerScript.Controller) > 0.5)
+        //   {
+        //       transform.position += new Vector3(0, 10 * Time.deltaTime, 0);
+        //   }
+        //   if (XCI.GetAxis(XboxAxis.RightStickY, PlayerScript.Controller) < -0.5)
+        //   {
+        //       transform.position -= new Vector3(0, 10 * Time.deltaTime, 0);
+        //   }
+        //   if (XCI.GetAxis(XboxAxis.RightStickX, PlayerScript.Controller) > 0.25 || Input.GetKey(KeyCode.E))
+        //   {
+        //       Guide.transform.Rotate(0, 90 * Time.deltaTime * 2, 0);
+        //   }
+        //   if (XCI.GetAxis(XboxAxis.RightStickX, PlayerScript.Controller) < -0.25)
+        //   {
+        //       Guide.transform.Rotate(0, 90 * Time.deltaTime * -2, 0);
+        //   }
+        //
+        if (Inverted)
         {
-            transform.position += new Vector3(0, 10 * Time.deltaTime, 0);
+            if (XCI.GetAxis(XboxAxis.RightStickY, PlayerScriptrb.Controller) > 0.5)
+            {
+                transform.position += new Vector3(0, 10 * Time.deltaTime, 0);
+            }
+            if (XCI.GetAxis(XboxAxis.RightStickY, PlayerScriptrb.Controller) < -0.5)
+            {
+                transform.position -= new Vector3(0, 10 * Time.deltaTime, 0);
+            }
         }
-        if (XCI.GetAxis(XboxAxis.RightStickY, PlayerScriptrb.Controller) < -0.5)
+        else
         {
-            transform.position -= new Vector3(0, 10 * Time.deltaTime, 0);
+            if (XCI.GetAxis(XboxAxis.RightStickY, PlayerScriptrb.Controller) > 0.5)
+            {
+                transform.position -= new Vector3(0, 10 * Time.deltaTime, 0);
+            }
+            if (XCI.GetAxis(XboxAxis.RightStickY, PlayerScriptrb.Controller) < -0.5)
+            {
+                transform.position += new Vector3(0, 10 * Time.deltaTime, 0);
+            }
         }
         if (XCI.GetAxis(XboxAxis.RightStickX, PlayerScriptrb.Controller) > 0.25 || Input.GetKey(KeyCode.E))
         {
