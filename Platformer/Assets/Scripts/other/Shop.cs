@@ -12,8 +12,8 @@ public class Shop : MonoBehaviour {
     AttackScript attackScript;
     GameObject Door;
     GameObject Sword;
-
-
+    public GameObject ShopText;
+    public GameObject ShopCam;
     bool PurchasedSword = false;
     bool PurchasedDoor = false;
 
@@ -25,7 +25,8 @@ public class Shop : MonoBehaviour {
         Collectable = GameObject.FindGameObjectWithTag("Player");
         CollectableScript = Collectable.GetComponent<Collectables>();
         menu.SetActive(false);
-
+        ShopText.SetActive(false);
+        ShopCam.SetActive(false);
     }
 	
 	// Update is called once per frame

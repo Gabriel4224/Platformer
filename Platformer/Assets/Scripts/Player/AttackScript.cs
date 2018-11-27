@@ -30,9 +30,8 @@ public class AttackScript : MonoBehaviour {
             Cooldown -= Time.deltaTime;
             if (Cooldown <= 0)
             {
-                Debug.Log("Attack false");
                 Cooldown = 0.5f;
-                 Attacking = false;
+                Attacking = false;
             }
         }
     }
@@ -40,9 +39,22 @@ public class AttackScript : MonoBehaviour {
     {
         if (XCI.GetButtonDown(XboxButton.X) && Attacking == false)
         {
-            Debug.Log("Attack");
-            Attacking = true;
+             Attacking = true;
         }
+    }
+  
+    private void OnTriggerEnter(Collider other)
+    {
+
+        if (other.gameObject.tag == "Enemy" && Attacking == false)
+        {
+            if (XCI.GetButtonDown(XboxButton.X))
+            {
+                Debug.Log("Hit");
+                hit = true;
+            }
+        }
+
     }
     private void OnTriggerStay(Collider other)
     {

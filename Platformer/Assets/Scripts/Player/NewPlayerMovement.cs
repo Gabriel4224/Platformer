@@ -10,18 +10,22 @@ public class NewPlayerMovement : MonoBehaviour {
     private float YAxis;
 
     public float Speed;
-    public Shop ShopScript;
+    public float Health;
+    Shop ShopScript;
     GameObject Canvas;
 
     float DefaultSpeed;
     bool IsSprinting;
     int SprintToggle;
     public float Jump;
+    float ShopCooldown = 0.25f;
     Vector3 TargetDirection;
 
     bool CanJump;
     bool Grounded;
-
+    bool InMenu;
+    public bool CanShop;
+    public bool CanMove;
     Rigidbody rb;
     public CharacterController CharControl;
     public XboxController Controller;
@@ -35,14 +39,44 @@ public class NewPlayerMovement : MonoBehaviour {
         Canvas = GameObject.FindGameObjectWithTag("Canvas");
         ShopScript = Canvas.GetComponent<Shop>();
         DefaultSpeed = Speed ;
+        CanMove = true;
+        CanShop = true;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(Health <= 0)
+        {
+            gameObject.SetActive(false);
+        }
+        if (CanMove)
+        {
+            Movement();
+        }
+        if (InMenu)
+        {
+            ShopScript.ShopText.SetActive(false);
 
-         Movement();
-     
+            if (XCI.GetButtonDown(XboxButton.B))
+             {
+                CanMove = true;
+                ShopScript.menu.SetActive(false);
+                ShopScript.ShopCam.SetActive(false);
+
+                CanShop = false;
+                InMenu = false;
+            }
+        }
+        if (CanShop == false)
+        {
+            ShopCooldown -= Time.deltaTime;
+            if(ShopCooldown <= 0)
+            {
+                CanShop = true;
+                ShopCooldown = 0.25f;
+            }
+        }
     }
 
     void Movement()
@@ -68,6 +102,7 @@ public class NewPlayerMovement : MonoBehaviour {
 
                 moveDirection.y = Jump;
                 CanJump = true;
+
             }
 
         }
@@ -75,23 +110,27 @@ public class NewPlayerMovement : MonoBehaviour {
         else
         {
 
-            if (XCI.GetButtonDown(XboxButton.A) && CanJump)
+            if (XCI.GetButtonDown(XboxButton.A) && CanJump && !IsSprinting)
             {
 
                 moveDirection.y = Jump;
                 CanJump = false;
+
             }
         }
         // Toggles between sprinting and jogging
         if (IsSprinting && SprintToggle == 0)
         {
-            Speed *= 1.5f;
+            Speed *= 1.7f;
+            Jump *= 1.10f;
             SprintToggle++;
         }
         if (IsSprinting == false)
         {
             Speed = DefaultSpeed;
             SprintToggle = 0;
+            Jump = 12;
+
         }
         // Gives gravity to players Y axis 
         moveDirection.y = moveDirection.y + (Physics.gravity.y * gravScale * Time.deltaTime);
@@ -118,7 +157,7 @@ public class NewPlayerMovement : MonoBehaviour {
             TargetDirection.z = transform.position.z - Camera.main.transform.position.z;
 
             Vector3 Forward = new Vector3(TargetDirection.x, 0.0f, TargetDirection.z);
-            Vector3 NewDirection = Vector3.RotateTowards(transform.forward, Forward, 3 * Time.deltaTime, 0);
+            Vector3 NewDirection = Vector3.RotateTowards(transform.forward, Forward, 5 * Time.deltaTime, 0);
             transform.rotation = Quaternion.LookRotation(NewDirection);
 
         }
@@ -129,27 +168,37 @@ public class NewPlayerMovement : MonoBehaviour {
             TargetDirection.z = transform.position.z - Camera.main.transform.position.z;
 
             Vector3 Forward = new Vector3(TargetDirection.x, 0.0f, TargetDirection.z);
-            Vector3 NewDirection = Vector3.RotateTowards(transform.forward, -Forward, 3 * Time.deltaTime, 0);
+            Vector3 NewDirection = Vector3.RotateTowards(transform.forward, -Forward, 5 * Time.deltaTime, 0);
             transform.rotation = Quaternion.LookRotation(NewDirection);
 
         }
  
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.tag == "Vendor")
         {
-            Debug.Log("Vendor ignores you");
-            ShopScript.menu.SetActive(true);
+            ShopScript.ShopText.SetActive(true);
+
+            Debug.Log("VENDORCOLLISIION");
+            if (XCI.GetButtonUp(XboxButton.B) && CanShop)
+            {
+                Debug.Log("Vendor ignores you");
+                CanMove = false;
+                ShopScript.menu.SetActive(true);
+                InMenu = true;
+                ShopScript.ShopCam.SetActive(true);
+
+            }
         }
     }
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.tag == "Vendor")
         {
-            Debug.Log("Vendor ignores you");
-            ShopScript.menu.SetActive(false);
+            ShopScript.ShopText.SetActive(false);
+
         }
     }
 }
