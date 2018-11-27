@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using XboxCtrlrInput;
+using UnityEngine.SceneManagement;
 
 public class Hud : MonoBehaviour {
 
@@ -26,7 +27,9 @@ public class Hud : MonoBehaviour {
         CollectableScript = Player.GetComponent<Collectables>();
         CamScript = Camera.GetComponent<CameraScript>();
         Menu.SetActive(false);
-       }
+        Time.timeScale = 1;
+
+    }
 
     // Update is called once per frame
     void Update()
@@ -72,5 +75,10 @@ public class Hud : MonoBehaviour {
     public void Invert()
     {
             InvertCamToggle += 1;
-     }
+    }
+    public void Restart()
+    {
+        SceneManager.LoadScene("Level1");
+
+    }
 }

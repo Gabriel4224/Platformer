@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyScript : MonoBehaviour {
 
 
-    public float Health;
+    public float Health = 20;
     public float Attack;
     //public float Speed;
     NewPlayerMovement PlayerScript;
@@ -39,7 +39,7 @@ public class EnemyScript : MonoBehaviour {
     void AttackPlayer()
     {
         transform.LookAt(Player.transform.position);
-        transform.position += transform.forward * 5 * Time.deltaTime;
+        transform.position += transform.forward * 0 * Time.deltaTime;
     }
     private void OnTriggerEnter(Collider other)
     {

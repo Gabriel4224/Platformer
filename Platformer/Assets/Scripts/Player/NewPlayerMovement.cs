@@ -157,7 +157,7 @@ public class NewPlayerMovement : MonoBehaviour {
             TargetDirection.z = transform.position.z - Camera.main.transform.position.z;
 
             Vector3 Forward = new Vector3(TargetDirection.x, 0.0f, TargetDirection.z);
-            Vector3 NewDirection = Vector3.RotateTowards(transform.forward, Forward, 5 * Time.deltaTime, 0);
+            Vector3 NewDirection = Vector3.RotateTowards(transform.forward, Forward, 7 * Time.deltaTime, 0);
             transform.rotation = Quaternion.LookRotation(NewDirection);
 
         }
@@ -168,7 +168,7 @@ public class NewPlayerMovement : MonoBehaviour {
             TargetDirection.z = transform.position.z - Camera.main.transform.position.z;
 
             Vector3 Forward = new Vector3(TargetDirection.x, 0.0f, TargetDirection.z);
-            Vector3 NewDirection = Vector3.RotateTowards(transform.forward, -Forward, 5 * Time.deltaTime, 0);
+            Vector3 NewDirection = Vector3.RotateTowards(transform.forward, -Forward, 7 * Time.deltaTime, 0);
             transform.rotation = Quaternion.LookRotation(NewDirection);
 
         }

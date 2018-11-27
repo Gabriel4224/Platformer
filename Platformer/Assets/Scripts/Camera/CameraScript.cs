@@ -30,7 +30,9 @@ public class CameraScript : MonoBehaviour {
         CameraRotate();
         Vector3 ClampedPosition = transform.position;
         ClampedPosition.y = Mathf.Clamp(transform.position.y, Player.transform.position.y, Player.transform.position.y + 8);
-        
+       //  ClampedPosition.x = Mathf.Clamp(transform.position.x, Player.transform.position.x + 3, Player.transform.position.x + 8);
+       //   ClampedPosition.z = Mathf.Clamp(transform.position.z, Player.transform.position.z + 3, Player.transform.position.z + 8);
+
         transform.position = ClampedPosition;
         transform.LookAt(Player.transform.position);
         Guide.transform.position = Player.transform.position;
@@ -59,10 +61,14 @@ public class CameraScript : MonoBehaviour {
             if (XCI.GetAxis(XboxAxis.RightStickY, PlayerScriptrb.Controller) > 0.5)
             {
                 transform.position += new Vector3(0, 10 * Time.deltaTime, 0);
+                transform.position -= transform.forward * 15 * Time.deltaTime;
+
             }
             if (XCI.GetAxis(XboxAxis.RightStickY, PlayerScriptrb.Controller) < -0.5)
             {
                 transform.position -= new Vector3(0, 10 * Time.deltaTime, 0);
+                transform.position += transform.forward * 15 * Time.deltaTime;
+
             }
         }
         else
