@@ -30,7 +30,7 @@ public class NewPlayerMovement : MonoBehaviour {
     public CharacterController CharControl;
     public XboxController Controller;
     public float gravScale;
-    public Vector3 moveDirection;
+    Vector3 moveDirection;
     int Djump;
     // Use this for initialization
     void Start() {
