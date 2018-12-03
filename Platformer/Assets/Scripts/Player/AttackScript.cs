@@ -6,67 +6,38 @@ using XboxCtrlrInput;
 public class AttackScript : MonoBehaviour {
      EnemyScript Enemy;
     GameObject EnemyGameobject;
-    bool Attacking;
-    bool hit;
+    GameObject Player;
+ 
     public float Cooldown;
 
     // Use this for initialization
     void Start () {
+        Player = GameObject.FindGameObjectWithTag("Player");
         EnemyGameobject = GameObject.FindGameObjectWithTag("Enemy");
         Enemy = EnemyGameobject.GetComponent<EnemyScript>();
         gameObject.SetActive(false);
      }
 	
 	// Update is called once per frame
-	void Update () {
-        Attack();
-        if (Attacking)
+	void Update ()
+    {
+        Vector3 forward = transform.TransformDirection(Vector3.forward) * 10;
+        Debug.DrawRay(transform.position, forward, Color.green);
+        Ray ray = new Ray(transform.position, transform.forward);
+
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, 10))
         {
-            if (hit)
+            Debug.Log("INRANGE");
+
+            if (hit.collider.CompareTag("Enemy") && XCI.GetButtonDown(XboxButton.X))
             {
-                 hit = false;
+                Debug.Log("HITENEMY");
+                Enemy = hit.transform.gameObject.GetComponent<EnemyScript>();
                 Enemy.Health -= 10;
             }
-            Cooldown -= Time.deltaTime;
-            if (Cooldown <= 0)
-            {
-                Cooldown = 0.5f;
-                Attacking = false;
-            }
-        }
+        }  
     }
-    void Attack()
-    {
-        if (XCI.GetButtonDown(XboxButton.X) && Attacking == false)
-        {
-             Attacking = true;
-        }
-    }
-  
-    private void OnTriggerEnter(Collider other)
-    {
 
-        if (other.gameObject.tag == "Enemy" && Attacking == false)
-        {
-            if (XCI.GetButtonDown(XboxButton.X))
-            {
-                Debug.Log("Hit");
-                hit = true;
-            }
-        }
-
-    }
-    private void OnTriggerStay(Collider other)
-    {
-         
-            if (other.gameObject.tag == "Enemy" && Attacking == false)
-            {
-                if (XCI.GetButtonDown(XboxButton.X))
-                {
-                    Debug.Log("Hit");
-                    hit = true;
-                }
-            }
-        
-    }
-}
+ }
+ 
