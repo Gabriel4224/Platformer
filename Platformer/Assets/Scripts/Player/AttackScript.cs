@@ -30,12 +30,18 @@ public class AttackScript : MonoBehaviour {
         {
             Debug.Log("INRANGE");
 
-            if (hit.collider.CompareTag("Enemy") && XCI.GetButtonDown(XboxButton.X))
+            if (hit.collider.CompareTag("Enemy"))
             {
-                Debug.Log("HITENEMY");
-                Enemy = hit.transform.gameObject.GetComponent<EnemyScript>();
-                Enemy.Health -= 10;
+                Debug.Log("CanHitEnemy");
+
+                if (XCI.GetButtonDown(XboxButton.X))
+                {
+                    Debug.Log("HITENEMY");
+                    Enemy = hit.transform.gameObject.GetComponent<EnemyScript>();
+                    Enemy.Health -= 10;
+                }
             }
+
         }  
     }
 
