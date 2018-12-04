@@ -18,6 +18,8 @@ TagManager:
   - Sword
   - Lava
   - Tourist
+  - NPC
+  - DialogueManager
   layers:
   - Default
   - TransparentFX

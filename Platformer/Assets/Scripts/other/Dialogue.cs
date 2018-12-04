@@ -13,7 +13,8 @@ public class Dialogue : MonoBehaviour
 
     public Text text;
     bool pause = true;
-    float PauseTimer = 0.5f;
+    bool talking;
+    float PauseTimer = 0.05f;
     bool HasTalkedToTourist;
     int TestPatience;
     GameObject Player;
@@ -26,18 +27,30 @@ public class Dialogue : MonoBehaviour
            Player = GameObject.FindGameObjectWithTag("Player");
            PlayerScript = Player.GetComponent<NewPlayerMovement>();
         Talk.SetActive(false);
+        talking = false;
     }
 
     /// Update is called once per frame
     void Update()
     {
-        Debug.Log(TouristNumber);
-        if (pause == false)
+        if(talking)
+        {
+            Debug.Log("ISTALKING");
+            if (XCI.GetButtonDown(XboxButton.B))
+            {
+                TouristNumber++;
+            }
+            TouristDialogue.SetActive(true);
+            pause = false;
+            PlayerScript.CanMove = false;
+        }
+         if (pause == false)
         {
             PauseTimer -= Time.deltaTime;
             if (PauseTimer <= 0)
             {
                 pause = true;
+                PauseTimer = 0.05f;
             }
         }
 
@@ -54,7 +67,7 @@ public class Dialogue : MonoBehaviour
                     {
                         TouristNumber += 4;
                     }
-                    else
+                    if(HasTalkedToTourist == false)
                     {
                         text.text = "Im not really sure how i ended up here";
                     }
@@ -80,6 +93,7 @@ public class Dialogue : MonoBehaviour
                     TouristDialogue.SetActive(false);
                     PlayerScript.CanMove = true;
                     TouristNumber = 0;
+                    talking = false;
                 }
                 break;
             case 5:
@@ -94,6 +108,8 @@ public class Dialogue : MonoBehaviour
                     PlayerScript.CanMove = true;
                     TouristNumber = 0;
                     TestPatience++;
+                    talking = false;
+
                 }
                 break;
             case 7:
@@ -119,6 +135,8 @@ public class Dialogue : MonoBehaviour
                     TouristDialogue.SetActive(false);
                     PlayerScript.CanMove = true;
                     TouristNumber = 0;
+                    talking = false;
+
                 }
                 break;
         }
@@ -134,21 +152,13 @@ public class Dialogue : MonoBehaviour
         {
             Talk.SetActive(true);
             Debug.Log("Speak To frien");
-            if (XCI.GetButtonUp(XboxButton.B) && pause)
+            if (XCI.GetButtonDown(XboxButton.B))
             {
-                TouristNumber++;
-                TouristDialogue.SetActive(true);
-                pause = false;
-                PlayerScript.CanMove = false;
+                Debug.Log("TALKING");
+                talking = true;
+               
             }
         }
     }
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.tag == "Tourist")
-        {
-            Talk.SetActive(false);
-
-        }
-    }
+ 
 }
