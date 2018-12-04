@@ -16,6 +16,8 @@ TagManager:
   - Vendor
   - Door
   - Sword
+  - Lava
+  - Tourist
   layers:
   - Default
   - TransparentFX

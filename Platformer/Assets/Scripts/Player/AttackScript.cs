@@ -4,23 +4,22 @@ using UnityEngine;
 using XboxCtrlrInput;
 
 public class AttackScript : MonoBehaviour {
-    EnemyScript Enemy;
+     EnemyScript Enemy;
     GameObject EnemyGameobject;
     GameObject Player;
-
+ 
     public float Cooldown;
 
     // Use this for initialization
-    void Start()
-    {
+    void Start () {
         Player = GameObject.FindGameObjectWithTag("Player");
         EnemyGameobject = GameObject.FindGameObjectWithTag("Enemy");
         Enemy = EnemyGameobject.GetComponent<EnemyScript>();
         gameObject.SetActive(false);
-    }
-
-    // Update is called once per frame
-    void Update()
+     }
+	
+	// Update is called once per frame
+	void Update ()
     {
         Vector3 forward = transform.TransformDirection(Vector3.forward) * 10;
         Debug.DrawRay(transform.position, forward, Color.green);
@@ -37,7 +36,8 @@ public class AttackScript : MonoBehaviour {
                 Enemy = hit.transform.gameObject.GetComponent<EnemyScript>();
                 Enemy.Health -= 10;
             }
-        }
+        }  
     }
 
-}
+ }
+ 

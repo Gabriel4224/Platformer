@@ -30,7 +30,7 @@ public class NewPlayerMovement : MonoBehaviour {
     public CharacterController CharControl;
     public XboxController Controller;
     public float gravScale;
-    Vector3 moveDirection;
+    public Vector3 moveDirection;
     int Djump;
     // Use this for initialization
     void Start() {
@@ -155,22 +155,22 @@ public class NewPlayerMovement : MonoBehaviour {
         {
             TargetDirection.x = transform.position.x - Camera.main.transform.position.x;
             TargetDirection.z = transform.position.z - Camera.main.transform.position.z;
-
+       
             Vector3 Forward = new Vector3(TargetDirection.x, 0.0f, TargetDirection.z);
             Vector3 NewDirection = Vector3.RotateTowards(transform.forward, Forward, 7 * Time.deltaTime, 0);
             transform.rotation = Quaternion.LookRotation(NewDirection);
-
+       
         }
         // roates player negative to its forward (Faces player towards camera)
         if (XCI.GetAxis(XboxAxis.LeftStickY) < -0.55 || Input.GetKey(KeyCode.S))
         {
             TargetDirection.x = transform.position.x - Camera.main.transform.position.x;
             TargetDirection.z = transform.position.z - Camera.main.transform.position.z;
-
+       
             Vector3 Forward = new Vector3(TargetDirection.x, 0.0f, TargetDirection.z);
             Vector3 NewDirection = Vector3.RotateTowards(transform.forward, -Forward, 7 * Time.deltaTime, 0);
             transform.rotation = Quaternion.LookRotation(NewDirection);
-
+       
         }
  
     }

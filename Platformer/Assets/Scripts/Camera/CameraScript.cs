@@ -24,7 +24,7 @@ public class CameraScript : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update ()
+    void LateUpdate ()
     {
         //Calls cam Rotate function 
         CameraRotate();
@@ -33,8 +33,9 @@ public class CameraScript : MonoBehaviour {
        //  ClampedPosition.x = Mathf.Clamp(transform.position.x, Player.transform.position.x + 3, Player.transform.position.x + 8);
        //   ClampedPosition.z = Mathf.Clamp(transform.position.z, Player.transform.position.z + 3, Player.transform.position.z + 8);
 
-        transform.position = ClampedPosition;
         transform.LookAt(Player.transform.position);
+        // looks at guide to rotate around player
+         transform.position = ClampedPosition;
         Guide.transform.position = Player.transform.position;
     }
     void CameraRotate()
