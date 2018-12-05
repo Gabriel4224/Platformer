@@ -52,6 +52,33 @@ public class Talking : MonoBehaviour {
             }
             Talk.SetActive(true);
         }
-    }
+        if (other.gameObject.tag == "GameMaker")
+        {
+            Debug.Log("GameMaker");
 
+            if (XCI.GetButtonDown(XboxButton.B) && dialogue.IsTalking == false)
+            {
+                dialogue.DialogBox.SetActive(true);
+                dialogue.ActivateMiniGame = true;
+                TriggerConvo = other.transform.gameObject.GetComponent<NPCInteractable>();
+                TriggerConvo.TriggerDialogue();
+                Pause = false;
+ 
+            }
+            Talk.SetActive(true);
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "NPC")
+        {         
+            Talk.SetActive(false);
+        }
+        if (other.gameObject.tag == "GameMaker")
+        {
+            Talk.SetActive(false);
+        }
+    }
 }
+
+  

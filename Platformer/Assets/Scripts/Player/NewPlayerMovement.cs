@@ -113,7 +113,7 @@ public class NewPlayerMovement : MonoBehaviour {
             if (XCI.GetButtonDown(XboxButton.A) && CanJump && !IsSprinting)
             {
 
-                moveDirection.y = Jump;
+                moveDirection.y = Jump + 1.8f;
                 CanJump = false;
 
             }
@@ -122,7 +122,7 @@ public class NewPlayerMovement : MonoBehaviour {
         if (IsSprinting && SprintToggle == 0)
         {
             Speed *= 1.7f;
-            Jump *= 1.10f;
+            Jump *= 1.2f;
             SprintToggle++;
         }
         if (IsSprinting == false)

@@ -10,13 +10,14 @@ public class DialogueManager : MonoBehaviour {
     public GameObject DialogBox;
     public Queue<string> Sentences;
     public bool IsTalking;
-
+    public bool ActivateMiniGame;
 
 	// Use this for initialization
 	void Start () {
         Sentences = new Queue<string>();
         DialogBox.SetActive(false);
         IsTalking = false;
+        ActivateMiniGame = false;
     }
 	
  public void StartDialogue(NewDialogue dialogue)
@@ -45,7 +46,7 @@ public class DialogueManager : MonoBehaviour {
         string Sentence = Sentences.Dequeue();
         DialogueText.text = Sentence;
      }
-    void EndDialogue()
+    public void EndDialogue()
     {
         IsTalking = false;
         DialogBox.SetActive(false);

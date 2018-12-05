@@ -9,12 +9,12 @@ public class Hud : MonoBehaviour {
 
 
     public Text test;
-    GameObject Player;
+     GameObject Player;
     public GameObject Menu;
     GameObject Camera;
 
     Collectables CollectableScript;
-    CameraScript CamScript;
+    NewCameraScript CamScript;
     public int CollectableCount;
 
      public int MenuToggle;
@@ -25,7 +25,7 @@ public class Hud : MonoBehaviour {
         Player = GameObject.FindGameObjectWithTag("Player");
         Camera = GameObject.FindGameObjectWithTag("MainCamera");
         CollectableScript = Player.GetComponent<Collectables>();
-        CamScript = Camera.GetComponent<CameraScript>();
+        CamScript = Camera.GetComponent<NewCameraScript>();
         Menu.SetActive(false);
         Time.timeScale = 1;
 
@@ -34,6 +34,7 @@ public class Hud : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(InvertCamToggle);
         test.text = " " + CollectableScript.CollectablesPickUp;
         if (XCI.GetButtonDown(XboxButton.Start))
         {

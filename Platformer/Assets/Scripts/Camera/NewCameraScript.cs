@@ -5,7 +5,7 @@ using XboxCtrlrInput;
 
 public class NewCameraScript : MonoBehaviour {
     private const float Y_ANGLE_MIN = 0.0f;
-    private const float Y_ANGLE_MAX = 15;
+    private const float Y_ANGLE_MAX = 30;
 
 
     GameObject Player;
@@ -22,20 +22,29 @@ public class NewCameraScript : MonoBehaviour {
     public float SensitivityX;
     public float SensitivityY;
 
+    public bool Inverted;
     float XAxis;
     float YAxis;
     // Use this for initialization
     void Start () {
         CameraTransform = transform;
         Cam = Camera.main;
+        Inverted = false;
     }
     private void Update()
     {
         XAxis = XCI.GetAxis(XboxAxis.RightStickX);
         YAxis = XCI.GetAxis(XboxAxis.RightStickY);
-        CurrentX += XAxis;
-        CurrentY += YAxis;
-
+        if (Inverted == false)
+        {
+            CurrentX += XAxis;
+            CurrentY += YAxis;
+        }
+        else
+        {
+            CurrentX -= XAxis;
+            CurrentY -= YAxis;
+        }
         CurrentY = Mathf.Clamp(CurrentY, Y_ANGLE_MIN, Y_ANGLE_MAX);
     }
     // Update is called once per frame

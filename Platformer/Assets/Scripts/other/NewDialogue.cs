@@ -7,7 +7,7 @@ using UnityEngine;
 public class NewDialogue  {
 
     public string[] Name;
-    [TextArea(3, 10)]
+    [TextArea(0, 100)]
     public string[] Sentences;
 
 }
